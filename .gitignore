@@ -1,0 +1,67 @@
+# Datasets — never commit raw or processed image data to git
+datasets/raw/*
+datasets/processed/*
+!datasets/raw/.gitkeep
+!datasets/processed/.gitkeep
+
+# Generated inventory and experiment outputs
+outputs/
+*.parquet
+*.sqlite3
+*.db
+
+# Populated manifests (the template stays, filled-in working copies don't)
+datasets/manifest/*.csv
+!datasets/manifest/manifest_template.csv
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Model weights / experiment artifacts
+models/*.pt
+models/*.pth
+models/*.onnx
+experiments/**/checkpoints/
+experiments/**/*.log
+experiments/**/outputs/
+*.pt
+*.pth
+*.onnx
+*.ckpt
+*.safetensors
+
+# Node / React Native (for later phases)
+node_modules/
+.expo/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+logs/
+
+# Env / secrets
+.env
+*.env
+*.env.*
+!.env.example
+*.pem
+*.p12
+*.key
