@@ -59,16 +59,4 @@ Tomato · Potato · Rice · Corn · Apple · Grape
 Anything outside these six is classified as `Unknown Crop` rather than forced into the
 nearest match. See `docs/01_Project_Scope.md` for why these six were chosen.
 
-## Licensing
 
-The source code in this repository will be released under an open-source license.
-The exact license (likely MIT) will be added once the shape of the final repository is
-settled — specifically, whether trained model weights, or preprocessing scripts tied to
-restricted-license datasets, end up living in this repo. Adding a license file
-prematurely risks committing to terms before we know what the repo actually contains.
-
-**No dataset files are included in this repository.** Datasets referenced or ingested by
-this project remain subject to their own, separate original licenses (CC BY 4.0,
-CC BY-NC-ND 4.0, etc.) regardless of whatever license this codebase eventually adopts —
-see `docs/02_Data_Inventory.md` for per-dataset terms and `docs/03_AgroVision_Standards.md`
-for how license rules are enforced via the `license_tier` manifest column.
