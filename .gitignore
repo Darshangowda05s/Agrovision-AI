@@ -42,7 +42,7 @@ experiments/**/outputs/
 *.ckpt
 *.safetensors
 
-# Node / React Native (for later phases)
+# Node / React Native (kept out of the model workspace)
 node_modules/
 .expo/
 
@@ -52,6 +52,9 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Local workspace notes
+README_MODEL_WORKSPACE.md
 
 # Logs
 *.log

@@ -59,4 +59,3 @@ Tomato · Potato · Rice · Corn · Apple · Grape
 Anything outside these six is classified as `Unknown Crop` rather than forced into the
 nearest match. See `docs/01_Project_Scope.md` for why these six were chosen.
 
-

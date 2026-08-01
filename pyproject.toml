@@ -1,0 +1,22 @@
+[project]
+name = "agrovision-ai-models"
+version = "0.1.0"
+description = "Model training and packaging workspace for AgroVision"
+requires-python = ">=3.10"
+dependencies = [
+  "pandas>=2.2",
+  "Pillow>=10.0",
+  "pyarrow>=16.0",
+  "imagehash>=4.0",
+  "scikit-image>=0.22",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-asyncio>=0.23",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
