@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAvHJIBNByTcfoy3K4W7XnOQv19rjamWew",
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY ?? "<REPLACE_WITH_FIREBASE_API_KEY>",
   authDomain: "agrovision-6bac6.firebaseapp.com",
   projectId: "agrovision-6bac6",
   storageBucket: "agrovision-6bac6.firebasestorage.app",
