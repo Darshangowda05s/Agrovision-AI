@@ -89,7 +89,7 @@ registry table below gets populated from.
 ### Crop classifier candidates
 
 Same backbone list as disease detection (EfficientNet/ConvNeXt/MobileNet) — a much
-smaller output space (6 classes + unknown) than disease detection, so a lighter backbone
+smaller output space (5 classes + unknown) than disease detection, so a lighter backbone
 than the disease model may be entirely sufficient. Confirm with the pilot run (Step 10
 in the dataset roadmap) rather than assuming.
 

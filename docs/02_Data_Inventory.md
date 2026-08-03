@@ -4,14 +4,31 @@ This is the authoritative dataset inventory. **Do not download a dataset that is
 listed here with `Status: Approved`.** If you find a promising dataset elsewhere, add a
 row with `Status: Candidate` and get it reviewed before pulling it into `datasets/raw/`.
 
+## Current implementation note (2026-08-03)
+
+The inventory generator now writes canonical snake_case values for `dataset`, `crop`, and
+`disease` into the CSV and JSON outputs. This is enforced by the shared normalization
+module in `scripts/utilities/label_normalization.py` and is used by the inventory pipeline
+in `scripts/utilities/dataset_inventory.py`.
+
+The main inventory fields are therefore now consistent with the manifest contract:
+
+- `dataset`: `plantvillage`, `plantdoc`, `plantwild`, `plantseg`
+- `crop`: `tomato`, `potato`, `corn`, `apple`, `grape`, etc.
+- `disease`: `late_blight`, `early_blight`, `healthy`, etc.
+
+The source path remains available via `relative_path` for provenance, but the downstream
+inventory fields are normalized and should be treated as the canonical values for the next
+phase.
+
 ## Active datasets
 
-| Dataset | License | Download URL | Approx. Images | Crops (of our 6) | Domain | Status | Downloaded | Verified | Notes |
+| Dataset | License | Download URL | Approx. Images | Crops (of our 5) | Domain | Status | Downloaded | Verified | Notes |
 |---|---|---|---|---|---|---|---|---|---|
-| PlantVillage | CC BY 4.0 | https://github.com/spMohanty/PlantVillage-Dataset (also mirrored on Kaggle, e.g. `abdallahalidev/plantvillage-dataset`) | ~54,300 | Apple, Corn, Grape, Potato, Tomato (**no Rice**) | Lab | ✅ Approved | ❌ No | ❌ No | Baseline/pretraining only — do not use alone for the field-image test set |
-| PlantDoc | CC BY 4.0 | https://github.com/pratikkayal/PlantDoc-Dataset (cropped) / https://public.roboflow.com/object-detection/plantdoc (annotated) | ~2,600 | Apple, Corn, Grape, Potato, Tomato (**no Rice**) | Field | ✅ Approved | ❌ No | ❌ No | Small but real-world; core of our field-image test set |
-| PlantWild | **CC BY-NC-ND 4.0** | https://huggingface.co/datasets/uqtwei2/PlantWild | 18,542 (v1) / more in v2 | Not yet crop-verified against our 6 | Field | ⚠️ Approved — **evaluation/benchmarking only, not training** (see license_tier policy) | ❌ No | ❌ No | Includes per-class text descriptions — usable for the RAG knowledge base regardless of the image-training restriction, since text and image licensing are handled separately |
-| PlantSeg | **CC BY-NC-ND 4.0** (one related preprint lists CC BY-NC; treat as NC either way) | https://github.com/tqwei05/PlantSeg (loader) → data on Zenodo | ~11,400–7,774 (sources vary on exact count) | Not yet crop-verified | Field | ⚠️ Approved — **evaluation/benchmarking only, not training** | ❌ No | ❌ No | Only source in our inventory with segmentation masks — valuable for Phase 5's leaf segmentation model *evaluation*, not training, under current policy |
+| PlantVillage | CC BY 4.0 | https://github.com/spMohanty/PlantVillage-Dataset (also mirrored on Kaggle, e.g. `abdallahalidev/plantvillage-dataset`) | 49,886 local images | Apple, Corn, Grape, Potato, Tomato | Lab | ✅ Approved | ✅ Yes | ✅ Yes | 49,886/49,886 readable. Baseline/pretraining only — do not use alone for the field-image test set. The local copy also contains out-of-scope Bell Pepper classes. |
+| PlantDoc | CC BY 4.0 | https://github.com/pratikkayal/PlantDoc-Dataset (cropped) / https://public.roboflow.com/object-detection/plantdoc (annotated) | 2,552 local images | Apple, Corn, Grape, Potato, Tomato | Field | ✅ Approved | ✅ Yes | ✅ Yes | 2,552/2,552 readable. Small but real-world; core of the field-image test set. The local copy also contains out-of-scope classes. |
+| PlantWild | **CC BY-NC-ND 4.0** | https://huggingface.co/datasets/uqtwei2/PlantWild | 11,358 local images | Apple, Corn, Grape, Potato, Tomato | Field | ⚠️ Approved — **evaluation/benchmarking only, not training** (see license_tier policy) | ✅ Yes | ✅ Yes | 11,358/11,358 readable. Exact native class list and five-crop overlap inventoried; includes other crops and disease labels outside V1. |
+| PlantSeg | **CC BY-NC-ND 4.0** (one related preprint lists CC BY-NC; treat as NC either way) | https://github.com/tqwei05/PlantSeg (loader) → data on Zenodo | 11,458 JPG images + 11,458 PNG masks | Apple, Corn, Grape, Potato, Tomato | Field | ⚠️ Approved — **evaluation/benchmarking only, not training** | ✅ Yes | ✅ Yes | 22,916/22,916 files readable. Image/mask pairs are both included in the raw inventory; metadata reconciliation remains a Phase 4 task. |
 
 **"Downloaded" vs. "Verified" are deliberately separate columns, not one status field.**
 Downloaded means the files are on disk. Verified means someone has actually opened a
@@ -55,11 +72,20 @@ for anything that touches the training set.
 this restriction can be relaxed and this document should be updated with that decision
 and its date, not just silently changed in code.
 
-## Per-dataset crop/disease verification status
+## Local inventory verification (2026-07-31)
 
-This still needs to happen for PlantWild and PlantSeg specifically — we know their
-approximate class counts but haven't confirmed exact overlap with our six target crops.
+The inventory script opened every enumerated image successfully and recorded exact native
+class labels. This verifies local presence, readability, label strings, and crop overlap;
+it does **not** validate disease truth, image quality, duplicate status, or the semantic
+mapping of ambiguous labels.
 
-**Action item:** before Step 4 (taxonomy) is finalized, spot-check PlantWild and PlantSeg
-class lists against {Tomato, Potato, Rice, Corn, Apple, Grape} and update this table with
-confirmed per-crop image counts.
+| Dataset | Apple | Corn | Grape | Potato | Tomato | Notes |
+|---|---:|---:|---:|---:|---:|---|
+| PlantVillage | 3,171 | 3,852 | 4,062 | 4,304 | 28,022 | Remaining 2,475 images are out-of-scope Bell Pepper. |
+| PlantDoc | 267 | 376 | 133 | 222 | 731 | Remaining 823 images are out-of-scope crops. |
+| PlantWild | 569 | 616 | 565 | 243 | 902 | Counts cover all native labels for each crop, including labels not currently supported by the V1 taxonomy. |
+| PlantSeg | 569 JPG images + matching masks | 616 + matching masks | 565 + matching masks | 243 + matching masks | 902 + matching masks | The raw inventory has twice these counts because it enumerates PNG masks as well as JPG images. |
+
+The PlantWild and PlantSeg crop counts match at image level because the local PlantSeg
+copy contains the corresponding image/mask material. Neither dataset is eligible for
+training under the current `eval_only` policy.

@@ -5,14 +5,21 @@ disagrees with this document, the document wins — fix the script, don't specia
 
 ## Naming conventions
 
+- **Dataset names:** lowercase, snake_case. `plantvillage`, `plantdoc`, `plantwild`,
+  `plantseg` — not `PlantVillage`, `PlantDoc`, `PlantWild`, `PlantSeg`.
 - **Crop names:** lowercase, snake_case. `tomato`, `bell_pepper` — not `Tomato`, `Bell Pepper`.
 - **Disease names:** lowercase, snake_case. `late_blight`, `early_blight`,
   `healthy` — not `Late Blight`, `Late_Blight`, `late-blight`.
 - **Combined crop-disease labels** (when needed): `crop__disease`, double underscore as
   separator, e.g. `tomato__late_blight`. This avoids ambiguity if a crop or disease name
   itself contains an underscore.
-- Every raw dataset's original label gets mapped to this convention during Step 4
-  (label standardization) — never train directly on a dataset's native label strings.
+- Every raw dataset label is normalized to this convention during inventory/ingestion via
+  the shared normalization module in `scripts/utilities/label_normalization.py`.
+  The current inventory pipeline writes canonical snake_case values to the CSV and JSON
+  outputs before any downstream manifest or training work begins.
+- Never train directly on a dataset's native label strings. Keep the source path in the
+  inventory record for provenance and use the canonical values for manifest, training, and
+  evaluation.
 
 ## Image format standards
 
@@ -129,7 +136,7 @@ The manifest (`datasets/manifest/`) is the single source of truth. One row per i
 `manifest_template.csv` is the **only** hand-edited template. Once real ingestion starts,
 run `scripts/utilities/csv_to_parquet.py` to generate a Parquet copy for anything code
 touches (training pipelines, dedup scripts, etc.) — typed columns, smaller on disk,
-faster to load at the row counts this project will reach once all six crops are
+faster to load at the row counts this project will reach once all five crops are
 ingested. **Never hand-author or hand-edit a `.parquet` manifest file** — it's a build
 artifact of the CSV, not a second source of truth. If the two ever disagree, the CSV
 wins and the Parquet gets regenerated.

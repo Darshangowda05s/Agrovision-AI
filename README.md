@@ -24,9 +24,10 @@ that gap from day one, not as an afterthought.
 
 ## Current status
 
-📋 **Design phase — no models trained yet.** We are deliberately finishing dataset
-engineering and documentation before writing any training code. See `docs/01_Project_Scope.md`
-for the full roadmap and where we are on it.
+🟡 **Dataset-inventory phase — no models trained yet.** The four approved datasets are
+downloaded and inventory-verified. The next work is label mapping, PlantSeg metadata
+reconciliation, quality filtering, deduplication, and manifest creation; training has
+not started. See `docs/01_Project_Scope.md` for the full roadmap.
 
 ## Repository structure
 
@@ -54,8 +55,7 @@ AgroVision-AI/
 
 ## Supported crops (Version 1)
 
-Tomato · Potato · Rice · Corn · Apple · Grape
+Tomato · Potato · Corn · Apple · Grape
 
-Anything outside these six is classified as `Unknown Crop` rather than forced into the
-nearest match. See `docs/01_Project_Scope.md` for why these six were chosen.
-
+Anything outside these five is classified as `Unknown Crop` rather than forced into the
+nearest match. See `docs/01_Project_Scope.md` for why these five were chosen.

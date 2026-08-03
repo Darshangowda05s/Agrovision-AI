@@ -16,6 +16,14 @@ A good explanation of the session is:
 
 > I started by validating the data instead of assuming the documented folder structure was correct. The inventory initially revealed that PlantDoc and PlantSeg split names were being reported as classes. I inspected the actual directories, identified the real label sources, updated the parsers to match those structures, regenerated the inventories, and ran the test suite. I kept raw labels unchanged because inventory is a provenance and discovery stage; canonical taxonomy mapping belongs later in ingestion.
 
+## 2.5 Follow-up update: naming consistency and documentation sync (2026-08-03)
+
+A strong add-on for the interview story is:
+
+> I then tightened the naming contract so the inventory output is consistent end-to-end. The current code now normalizes dataset, crop, and disease names to lowercase snake_case before writing CSV and JSON outputs, using a shared normalization module. That prevents later stages from inheriting inconsistent values like `Tomato`, `late_blight`, or dataset names in mixed case.
+
+This is evidence that the work moved beyond discovery and into pipeline hygiene: the inventory is now aligned with the manifest contract, the docs were updated to match the implementation, and the tests still pass.
+
 ## 3. Questions an Interviewer May Ask
 
 ### Why did you build an inventory before training a model?
@@ -71,7 +79,7 @@ Inventory is read-only discovery. It records what exists. Ingestion is the contr
 
 ### What would you add next to make this production-ready?
 
-I would first add targeted parser tests using real examples from every observed naming pattern. Then I would reconcile PlantSeg image and mask metadata, add crop counts to summaries, verify overlap with the six supported crops, define the manifest contract, and only after that implement label standardization, quality filtering, and duplicate detection.
+I would first add targeted parser tests using real examples from every observed naming pattern. Then I would reconcile PlantSeg image and mask metadata, add crop counts to summaries, verify overlap with the five supported crops, define the manifest contract, and only after that implement label standardization, quality filtering, and duplicate detection.
 
 ### What design principle guided the work?
 

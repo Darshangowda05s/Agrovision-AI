@@ -10,7 +10,7 @@ _CROP_PREFIXES = (
     "cucumber", "eggplant", "zucchini", "apple", "banana", "basil", "bean",
     "broccoli", "cabbage", "carrot", "celery", "cherry", "citrus", "coffee",
     "corn", "garlic", "ginger", "grape", "lettuce", "maple", "peach", "plum",
-    "potato", "raspberry", "rice", "soybean", "squash", "tobacco", "tomato",
+    "potato", "raspberry", "soybean", "squash", "tobacco", "tomato",
     "wheat",
 )
 

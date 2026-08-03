@@ -30,8 +30,8 @@ def test_scan_preserves_native_labels_and_reports_corrupt_images(tmp_path: Path)
     assert len(records) == 2
     readable = next(record for record in records if record.filename == "leaf.jpg")
     corrupt = next(record for record in records if record.filename == "broken.png")
-    assert readable.crop == "Tomato"
-    assert readable.disease == "Late_blight"
+    assert readable.crop == "tomato"
+    assert readable.disease == "late_blight"
     assert readable.width == 32
     assert readable.height == 24
     assert readable.file_size_bytes > 0
@@ -60,7 +60,7 @@ def test_outputs_are_written_as_csv_and_json(tmp_path: Path) -> None:
     with (output_dir / "plantdoc_inventory.csv").open(encoding="utf-8", newline="") as file:
         rows = list(csv.DictReader(file))
     summary = json.loads((output_dir / "plantdoc_summary.json").read_text(encoding="utf-8"))
-    assert rows[0]["crop"] == "Tomato"
-    assert rows[0]["disease"] == "Tomato Early blight leaf"
+    assert rows[0]["crop"] == "tomato"
+    assert rows[0]["disease"] == "early_blight"
     assert summary["total_images"] == 1
-    assert summary["classes"] == {"Tomato___Tomato Early blight leaf": 1}
+    assert summary["classes"] == {"tomato___early_blight": 1}

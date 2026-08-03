@@ -25,7 +25,7 @@ they actually key logic on.
 ```
 
 - `image` — required.
-- `crop` — optional. If provided and it matches one of the six supported crops, the
+- `crop` — optional. If provided and it matches one of the five supported crops, the
   crop-classification stage is skipped entirely (see `01_Project_Scope.md`'s
   crop-selection UX decision). If omitted or unrecognized, auto-classification runs.
 
@@ -106,7 +106,7 @@ it isn't specific to disease-detection confidence.
 | Status | Meaning |
 |---|---|
 | `success` | Full diagnosis produced above the confidence threshold |
-| `unknown_crop` | Crop not in the supported six, or crop classifier confidence too low |
+| `unknown_crop` | Crop not in the supported five, or crop classifier confidence too low |
 | `unknown_disease` | Crop recognized, disease not in that crop's taxonomy or below threshold |
 | `low_confidence_recapture_needed` | Image quality gate failed — nothing downstream ran |
 

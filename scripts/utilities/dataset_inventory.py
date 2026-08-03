@@ -25,6 +25,7 @@ except ImportError as exc:  # pragma: no cover - exercised without Pillow
 
 from ..parsers import plantdoc, plantseg, plantvillage, plantwild
 from ..parsers.base_parser import ParsedLabels, fallback_parse
+from .label_normalization import canonicalize_dataset_name, canonicalize_labels
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 CSV_FIELDS = [
@@ -55,9 +56,10 @@ class ImageRecord:
 
 
 def image_id(dataset: str, relative_path: Path) -> str:
-    key = f"{dataset}/{relative_path.as_posix()}".encode("utf-8")
+    dataset_slug = canonicalize_dataset_name(dataset)
+    key = f"{dataset_slug}/{relative_path.as_posix()}".encode("utf-8")
     digest = hashlib.sha1(key).hexdigest()[:8]
-    prefix = "".join(character for character in dataset.lower() if character.isalnum())[:3]
+    prefix = "".join(character for character in dataset_slug if character.isalnum())[:3]
     return f"{prefix}_{digest}"
 
 
@@ -91,13 +93,15 @@ def scan_dataset(dataset: str, root: Path, logger: logging.Logger) -> list[Image
             readable = False
             logger.warning("Unreadable image: %s (%s)", path, exc)
 
+        crop, disease = canonicalize_labels(labels.crop, labels.disease)
+        dataset_slug = canonicalize_dataset_name(dataset)
         records.append(ImageRecord(
             image_id=image_id(dataset, relative_path),
-            dataset=dataset,
+            dataset=dataset_slug,
             relative_path=relative_path.as_posix(),
             filename=path.name,
-            crop=labels.crop,
-            disease=labels.disease,
+            crop=crop,
+            disease=disease,
             extension=path.suffix.lower(),
             file_size_bytes=path.stat().st_size,
             readable=readable,
@@ -108,12 +112,13 @@ def scan_dataset(dataset: str, root: Path, logger: logging.Logger) -> list[Image
 
 
 def summarize(dataset: str, records: list[ImageRecord], generated_at: str) -> dict:
+    dataset_slug = canonicalize_dataset_name(dataset)
     classes = Counter(
         record.disease if not record.crop else f"{record.crop}___{record.disease}"
         for record in records
     )
     return {
-        "dataset": dataset,
+        "dataset": dataset_slug,
         "generated_at": generated_at,
         "total_images": len(records),
         "readable": sum(record.readable for record in records),
@@ -125,7 +130,7 @@ def summarize(dataset: str, records: list[ImageRecord], generated_at: str) -> di
 
 def write_outputs(dataset: str, records: list[ImageRecord], output_dir: Path, generated_at: str) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    slug = "".join(character for character in dataset.lower() if character.isalnum() or character == "_")
+    slug = "".join(character for character in canonicalize_dataset_name(dataset) if character.isalnum() or character == "_")
     csv_path = output_dir / f"{slug}_inventory.csv"
     json_path = output_dir / f"{slug}_summary.json"
     with csv_path.open("w", newline="", encoding="utf-8") as file:
