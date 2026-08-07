@@ -189,3 +189,9 @@ The completed items establish the local evidence base for Phase 4. The Phase 4 m
 has been generated in `datasets/manifest/manifest.csv`, with raw source labels preserved
 and canonical V1 mappings applied. The unchecked items remain required before this
 taxonomy becomes the enforced source of truth for a frozen training manifest.
+
+## Phase 4 update (2026-08-07)
+
+The Phase 4 canonical manifest ingestion work has been completed and documented. The
+manifest file `datasets/manifest/manifest.csv` now records both raw source labels and
+canonical V1 mappings, while preserving provenance for later audit and review.

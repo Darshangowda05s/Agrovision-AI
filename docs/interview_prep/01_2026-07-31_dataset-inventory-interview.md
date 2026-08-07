@@ -24,6 +24,10 @@ A strong add-on for the interview story is:
 
 This is evidence that the work moved beyond discovery and into pipeline hygiene: the inventory is now aligned with the manifest contract, the docs were updated to match the implementation, and the tests still pass.
 
+## 2.6 Follow-up update: Phase 4 manifest ingestion and docs completion (2026-08-07)
+
+I completed the Phase 4 canonical manifest ingestion work, generated `datasets/manifest/manifest.csv`, and updated the docs to record that the manifest is now the project’s single source of truth. This follow-up shows the work moved from inventory discovery into a stable, documented ingestion stage.
+
 ## 3. Questions an Interviewer May Ask
 
 ### Why did you build an inventory before training a model?

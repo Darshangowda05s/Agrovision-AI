@@ -68,6 +68,7 @@ Evidence: [scripts/utilities/dataset_inventory.py](scripts/utilities/dataset_inv
 - [x] Inventory rows are converted into manifest rows with canonical labels, IDs, license tiers, and provenance.
 - [x] CSV manifest output is generated.
 - [x] The manifest is treated as the single source of truth.
+- Updated 2026-08-07: Phase 4 manifest ingestion and documentation are complete.
 
 ### Phase 5 — Dataset engineering
 - [ ] Quality filtering is implemented.
