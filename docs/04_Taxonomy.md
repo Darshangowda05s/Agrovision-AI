@@ -185,6 +185,7 @@ knows the crop by the time disease detection runs.
       but this document hasn't independently re-verified each one against a primary
       source.
 
-The completed items establish the local evidence base for Phase 4. The unchecked items
-are required before this taxonomy becomes the enforced source of truth for a frozen
-training manifest.
+The completed items establish the local evidence base for Phase 4. The Phase 4 manifest
+has been generated in `datasets/manifest/manifest.csv`, with raw source labels preserved
+and canonical V1 mappings applied. The unchecked items remain required before this
+taxonomy becomes the enforced source of truth for a frozen training manifest.

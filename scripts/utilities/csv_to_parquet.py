@@ -16,17 +16,19 @@ import sys
 import pandas as pd
 
 EXPECTED_COLUMNS = [
-    "image_id", "image_path", "crop", "disease", "severity", "source",
-    "domain", "quality", "split", "collection_id", "perceptual_hash",
-    "license_tier", "mask_path", "notes",
+    "image_id", "dataset", "relative_path", "image_path", "mask_path",
+    "source_crop", "source_disease", "crop", "disease", "severity",
+    "source", "domain", "quality", "split", "collection_id",
+    "license_tier", "mapping_status", "notes",
 ]
 
 DTYPES = {
-    "image_id": "string", "image_path": "string", "crop": "string",
-    "disease": "string", "severity": "float64", "source": "string",
-    "domain": "string", "quality": "string", "split": "string",
-    "collection_id": "string", "perceptual_hash": "string",
-    "license_tier": "string", "mask_path": "string", "notes": "string",
+    "image_id": "string", "dataset": "string", "relative_path": "string",
+    "image_path": "string", "mask_path": "string", "source_crop": "string",
+    "source_disease": "string", "crop": "string", "disease": "string",
+    "severity": "float64", "source": "string", "domain": "string",
+    "quality": "string", "split": "string", "collection_id": "string",
+    "license_tier": "string", "mapping_status": "string", "notes": "string",
 }
 
 

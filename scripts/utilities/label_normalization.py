@@ -141,3 +141,74 @@ def canonicalize_labels(raw_crop: str, raw_disease: str) -> Tuple[str, str]:
     crop = canonicalize_crop(raw_crop)
     disease = canonicalize_disease(raw_disease, crop)
     return crop, disease
+
+SUPPORTED_CROPS = {
+    "apple",
+    "corn",
+    "grape",
+    "potato",
+    "tomato",
+}
+
+SUPPORTED_DISEASES: dict[str, set[str]] = {
+    "tomato": {
+        "healthy",
+        "bacterial_spot",
+        "early_blight",
+        "late_blight",
+        "leaf_mold",
+        "septoria_leaf_spot",
+        "spider_mites",
+        "target_spot",
+        "yellow_leaf_curl_virus",
+        "mosaic_virus",
+    },
+    "potato": {"healthy", "early_blight", "late_blight"},
+    "corn": {"healthy", "gray_leaf_spot", "common_rust", "northern_leaf_blight"},
+    "apple": {"healthy", "apple_scab", "black_rot", "cedar_apple_rust"},
+    "grape": {"healthy", "black_rot", "esca_black_measles", "leaf_blight_isariopsis"},
+}
+
+
+def canonicalize_supported_crop(raw_crop: str) -> str:
+    """Map a raw crop label to a supported AgroVision V1 crop or unknown."""
+    crop = canonicalize_crop(raw_crop)
+    return crop if crop in SUPPORTED_CROPS else "unknown"
+
+
+def canonicalize_supported_disease(raw_disease: str, crop: str) -> str:
+    """Map a raw disease label to a supported AgroVision V1 disease or unknown_disease."""
+    disease = canonicalize_disease(raw_disease, crop)
+    if crop not in SUPPORTED_DISEASES:
+        return "unknown_disease"
+    return disease if disease in SUPPORTED_DISEASES[crop] else "unknown_disease"
+
+
+def canonicalize_mapping_status(raw_crop: str, raw_disease: str, crop: str, disease: str) -> str:
+    """Return mapping status for manifest provenance filtering."""
+    if crop == "unknown":
+        return "unknown_crop"
+    if disease == "unknown_disease":
+        return "unknown_disease"
+    raw_crop_norm = normalize_token(raw_crop)
+    raw_disease_norm = normalize_token(raw_disease)
+    if raw_crop_norm == crop and raw_disease_norm == disease:
+        return "supported"
+    return "alias"
+
+
+def normalize_domain(dataset: str) -> str:
+    """Map dataset names to the expected manifest domain value."""
+    dataset_name = canonicalize_dataset_name(dataset)
+    return "lab" if dataset_name == "plantvillage" else "field"
+
+
+def normalize_license_tier(dataset: str) -> str:
+    """Map dataset names to the expected manifest license tier."""
+    dataset_name = canonicalize_dataset_name(dataset)
+    return "train_ok" if dataset_name in {"plantvillage", "plantdoc"} else "eval_only"
+
+
+def normalize_split(raw_split: str) -> str:
+    """Phase 4 uses unassigned split labels until Phase 5 splitting is implemented."""
+    return "unassigned"

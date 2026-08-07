@@ -55,6 +55,8 @@ Thumbs.db
 
 # Local workspace notes
 README_MODEL_WORKSPACE.md
+analysis_results.md
+docs/superpowers/
 
 # Logs
 *.log

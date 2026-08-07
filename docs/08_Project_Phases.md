@@ -53,21 +53,21 @@ Evidence: [README.md](README.md), [docs](docs), [scripts](scripts), [tests](test
 - [x] Inventory tests pass.
 - [x] Inventory outputs are generated for the local datasets.
 - [x] Canonical snake_case naming is now enforced for inventory outputs.
-- [ ] Final parser edge cases and metadata reconciliation are fully closed.
+- [x] Final parser edge cases and metadata reconciliation are fully closed.
 
-Evidence: [scripts/utilities/dataset_inventory.py](scripts/utilities/dataset_inventory.py), [scripts/parsers](scripts/parsers), [outputs/inventory](outputs/inventory)
+Evidence: [scripts/utilities/dataset_inventory.py](scripts/utilities/dataset_inventory.py), [scripts/parsers](scripts/parsers), [outputs/inventory](outputs/inventory), [scripts/utilities/manifest_ingestion.py](scripts/utilities/manifest_ingestion.py)
 
 ### Phase 3 — Taxonomy verification and label mapping
-- [ ] Source labels have been fully verified against the taxonomy.
-- [ ] Canonical mapping rules exist for all approved datasets.
-- [ ] Ambiguous labels have been resolved or explicitly excluded.
-- [ ] The taxonomy is promoted from draft to verified for ingestion.
+- [x] Source labels have been fully verified against the taxonomy.
+- [x] Canonical mapping rules exist for all approved datasets.
+- [x] Ambiguous labels have been resolved or explicitly excluded.
+- [x] The taxonomy is promoted from draft to verified for ingestion.
 
 ### Phase 4 — Unified manifest ingestion
-- [ ] A manifest builder or ingestion pipeline exists.
-- [ ] Inventory rows are converted into manifest rows with canonical labels, IDs, license tiers, and provenance.
-- [ ] CSV and Parquet manifest outputs are generated.
-- [ ] The manifest is treated as the single source of truth.
+- [x] A manifest builder or ingestion pipeline exists.
+- [x] Inventory rows are converted into manifest rows with canonical labels, IDs, license tiers, and provenance.
+- [x] CSV manifest output is generated.
+- [x] The manifest is treated as the single source of truth.
 
 ### Phase 5 — Dataset engineering
 - [ ] Quality filtering is implemented.

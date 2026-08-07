@@ -144,19 +144,23 @@ wins and the Parquet gets regenerated.
 | Column | Type | Description |
 |---|---|---|
 | `image_id` | string | Unique identifier, stable across pipeline re-runs |
-| `image_path` | string | File location relative to `datasets/processed/` |
-| `crop` | string | snake_case crop name, must exist in `04_Taxonomy.md` |
-| `disease` | string | snake_case disease name, must exist in `04_Taxonomy.md`, or `unknown` |
+| `dataset` | string | Original source dataset name or slug (e.g. `plantvillage`, `plantdoc`) |
+| `relative_path` | string | Original dataset-relative path to the image |
+| `image_path` | string | Path relative to `datasets/processed/` for the standardized image |
+| `mask_path` | string or null | Path to the associated segmentation mask, if one exists |
+| `source_crop` | string | Raw crop label from the source dataset |
+| `source_disease` | string | Raw disease label from the source dataset |
+| `crop` | string | Canonical snake_case crop name, must exist in `04_Taxonomy.md` or be `unknown` |
+| `disease` | string | Canonical snake_case disease name, must exist in `04_Taxonomy.md` or be `unknown_disease` |
 | `severity` | float or null | Reserved for future use — leave null until an annotation effort exists |
-| `source` | string | Which dataset this image came from (e.g. `plantvillage`, `plantdoc`) |
+| `source` | string | Dataset slug used by the pipeline (e.g. `plantvillage`, `plantdoc`) |
 | `domain` | enum | `lab` or `field` |
 | `quality` | enum | `pass` or `fail` |
-| `split` | enum | `train`, `val`, or `test` |
-| `collection_id` | string | Groups images from the same acquisition session/source-split, for leak-safe splitting |
-| `perceptual_hash` | string | pHash value, for deduplication |
+| `split` | enum | `train`, `val`, `test`, or `unassigned` |
+| `collection_id` | string | Groups images for leak-safe splitting when split assignment exists |
 | `license_tier` | enum | `train_ok` or `eval_only` — see `02_Data_Inventory.md` |
-| `mask_path` | string or null | Path to segmentation mask if one exists (currently only PlantSeg) |
-| `notes` | string | Free text — rejection reasons, manual review flags, anything not captured elsewhere |
+| `mapping_status` | enum | `supported`, `alias`, `unknown_crop`, or `unknown_disease` |
+| `notes` | string | Optional comments, manual-review notes, or provenance flags |
 
 This schema is the contract every preprocessing script writes against. If a script needs
 a column that isn't here, add it here first, then update the script — not the reverse.

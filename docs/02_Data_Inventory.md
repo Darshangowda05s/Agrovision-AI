@@ -21,6 +21,11 @@ The source path remains available via `relative_path` for provenance, but the do
 inventory fields are normalized and should be treated as the canonical values for the next
 phase.
 
+A canonical Phase 4 manifest has now been generated at `datasets/manifest/manifest.csv`.
+This CSV is the project’s current single source of truth for ingestion, with raw source
+labels preserved via `source_crop` and `source_disease`, and PlantSeg masks attached via
+`mask_path`.
+
 ## Active datasets
 
 | Dataset | License | Download URL | Approx. Images | Crops (of our 5) | Domain | Status | Downloaded | Verified | Notes |
